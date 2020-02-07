@@ -1,0 +1,22 @@
+ 1089  rio uninstall
+ 1090  cd ../helmerich-and-payne/
+ 1091  code
+ 1092  code ~/.kube
+ 1093  kubectx
+ 1094  kubectx rpi-k3s
+ 1095  kubectl get node
+ 1096  kubectl get pods -A
+ 1097  kubectl exec -it rabbitmq-management-84fc959f4c-zmnw6 rabbitmqctl status
+ 1098  kubectl exec -it rabbitmq-management-84fc959f4c-zmnw6 rabbitmqctl list_exchanges
+ 1099  kubectl get pods -A
+ 1100  kubectl exec -it rabbitmq-fanout-7r77n rabbitmqctl list_exchanges
+ 1101  kubectl exec -it rabbitmq-fanout-7r77n rabbitmqctl status
+ 1102  kubectl exec -it rabbitmq-fanout-7r77n rabbitmqctl help
+ 1103  kubectl exec -it rabbitmq-fanout-7r77n rabbitmqctl list_exchanges --help
+ 1104  kubectl exec -it rabbitmq-fanout-7r77n rabbitmqctl 'list_exchanges --help'
+ 1105  kubectl exec -it rabbitmq-fanout-7r77n rabbitmqctl 'list_exchanges help'
+ 1106  code .
+ 1107  kubectl exec -it rabbitmq-fanout-7r77n rabbitmqadmin 'declare exchange name=my.logs type=fanout'
+ 1108  kubectl exec -it rabbitmq-fanout-7r77n rabbitmqctl 'declare exchange name=my.logs type=fanout'
+ 1109  history
+ 1110  history 22 > rabbitmq-history.txt

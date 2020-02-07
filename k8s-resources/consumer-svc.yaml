@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/targetWorkloadIds: '["deployment:default:consumer"]'
+    workload.cattle.io/targetWorkloadIdNoop: "true"
+    workload.cattle.io/workloadPortBased: "true"
+  creationTimestamp: "2020-02-06T13:24:29Z"
+  labels:
+    cattle.io/creator: norman
+  name: consumer
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1beta2
+    controller: true
+    kind: deployment
+    name: consumer
+    uid: 71efd569-b585-467d-b184-0672ada2ba7f
+  resourceVersion: "281588"
+  selfLink: /api/v1/namespaces/default/services/consumer
+  uid: 378ae44f-e2a3-49b6-87eb-5d71bceee609
+spec:
+  clusterIP: None
+  ports:
+  - name: default
+    port: 42
+    protocol: TCP
+    targetPort: 42
+  selector:
+    workload.user.cattle.io/workloadselector: deployment-default-consumer
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

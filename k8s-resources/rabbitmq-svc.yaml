@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/targetWorkloadIds: '["daemonset:default:rabbitmq-fanout"]'
+    workload.cattle.io/targetWorkloadIdNoop: "true"
+    workload.cattle.io/workloadPortBased: "true"
+  creationTimestamp: "2020-02-03T21:08:43Z"
+  labels:
+    cattle.io/creator: norman
+  name: rabbitmq-fanout
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1beta2
+    controller: true
+    kind: daemonset
+    name: rabbitmq-fanout
+    uid: 5df590af-5713-443a-ab2f-a17393f16a48
+  resourceVersion: "121647"
+  selfLink: /api/v1/namespaces/default/services/rabbitmq-fanout
+  uid: 0489c397-02ab-4f28-9902-5712beb01de9
+spec:
+  clusterIP: 10.43.137.58
+  ports:
+  - name: clusterip
+    port: 5672
+    protocol: TCP
+    targetPort: 5672
+  selector:
+    workload.user.cattle.io/workloadselector: daemonSet-default-rabbitmq-fanout
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

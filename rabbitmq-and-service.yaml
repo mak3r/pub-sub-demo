@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-management
+  namespace: default
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      workload.user.cattle.io/workloadselector: deployment-default-rabbitmq-management
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      annotations:
+        cattle.io/timestamp: "2020-02-04T16:23:33Z"
+        field.cattle.io/ports: '[[{"containerPort":15672,"dnsName":"rabbitmq-management-hostport","hostPort":8080,"kind":"HostPort","name":"hostport","protocol":"TCP","sourcePort":8080}]]'
+      creationTimestamp: null
+      labels:
+        workload.user.cattle.io/workloadselector: deployment-default-rabbitmq-management
+    spec:
+      containers:
+      - image: rabbitmq:3-management
+        imagePullPolicy: Always
+        name: rabbitmq-management-3
+        ports:
+        - containerPort: 15672
+          hostPort: 9080
+          name: hostport
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities: {}
+          privileged: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    field.cattle.io/targetWorkloadIds: '["deployment:default:rabbitmq-management"]'
+    workload.cattle.io/targetWorkloadIdNoop: "true"
+    workload.cattle.io/workloadPortBased: "true"
+  creationTimestamp: "2020-02-04T16:23:34Z"
+  labels:
+    cattle.io/creator: norman
+  name: rabbitmq-management
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1beta2
+    controller: true
+    kind: deployment
+    name: rabbitmq-management
+    uid: 77a6340d-e936-4ee9-a98b-d1d5e01351ad
+  resourceVersion: "168027"
+  selfLink: /api/v1/namespaces/default/services/rabbitmq-management
+  uid: 10e6c04b-3247-4e53-9603-3af33b4b1cb1
+spec:
+  ports:
+  - name: hostport-rabbitmq-management
+    port: 15672
+    protocol: TCP
+    targetPort: 15672
+  selector:
+    workload.user.cattle.io/workloadselector: deployment-default-rabbitmq-management
+  sessionAffinity: None
+  type: ClusterIP
+
