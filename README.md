@@ -29,3 +29,9 @@ echo Hello $1
 ### consume continuously and specify a queue name
 `amqp-consume -u amqp://guest:guest@4bplus001 -e demo.logs -r "key" -q "k8s-consumer" cat`
 
+## links
+https://www.systutorials.com/docs/linux/man/1-amqp-consume/
+https://www.systutorials.com/docs/linux/man/1-amqp-publish/
+https://hub.docker.com/_/rabbitmq
+https://www.rabbitmq.com/management.html
+
