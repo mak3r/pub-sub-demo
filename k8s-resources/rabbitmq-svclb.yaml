@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  annotations:
+    deprecated.daemonset.template.generation: "1"
+    objectset.rio.cattle.io/applied: H4sIAAAAAAAA/4xU0W7jNhD8lWKfKcWyrcQm0IciuYegvcSwfX05BMGSWsVsKFIlV+oZhv69EBPETtHE96jV7OxoZqADPBtXgYQbpMa7DTEIwNb8SSEa70ACtm286AsQ0BBjhYwgD+CwIZAQe21VFlApw83fmfVYKbToNAUQCRRb1CPyDeMiCNCBkI13W9NQZGxakK6zVoBFRTaOF7z6izRH4jwYn2tktpQbf7HDuAMJi7JQhZqo8rKc6FJfzXVdLXRZLBeo5tMF1bqclvVyAmIUqb3j4K2lkD/P4gmb8xVFsqTZB5BQo40EgwB0znOS+KkYU72YcOQH8SHY/+MoZE/9M0i46Avxy+/GVb9uKPRG09m9V8c/8vr88v8lMQhIgDXVFMhpiiC/H94XIGX/2pKj2DNyuuTMcjGb10WtsuV8uczmy6rO1GU5z2a0VJfTq6tZcVmObTi6Jzl0NDwMAmJLerT+mM4BGmS9++OtIti2Zzo4DAKYmtYiUyI4qfBPdPD8gc/bFXv9qU/DyXeOJGgchZcIXvesylofOFtMFmOVTYNPL3RO7yhcPFvTthQyq2Q/yYt8CgJG/GccOx955QODHAfiePh02AbPXnsLErbXKxgeBJDrT1k36+vH1f16CwJ6tN04SgcG8Qa5+bLZPq7W99v7E1Ci+y/mJ3huVyeIYpLPZ3kxvcqL+SKpCxR9F1KBD8OrUavO2pW3Ru9Bwm1953kVKJIb/3GRdBcM76+9Y/rBKQFsURlr2NBL+lUF8jvcfdk+/nbz9fYOHoZheBgz69oKmTYckOlpP2J534661t5a456+pfcgILx7Tg3+8c1hj8aisgSyGFIHGLlLN3UXAjm+6xpFYaN3VHWWKpATAS7NvpoY340riiZQ9fHGmrDag5wMw78BAAD//weeLRjtBQAA
+    objectset.rio.cattle.io/id: svccontroller
+    objectset.rio.cattle.io/owner-gvk: /v1, Kind=Service
+    objectset.rio.cattle.io/owner-name: rabbitmq-loadbalancer
+    objectset.rio.cattle.io/owner-namespace: rabbitmq-ns
+  creationTimestamp: null
+  generation: 1
+  labels:
+    objectset.rio.cattle.io/hash: 851b1b0b5650c5c74cfd8c5198ab428efc525f90
+    svccontroller.k3s.cattle.io/nodeselector: "false"
+  name: svclb-rabbitmq-loadbalancer
+  ownerReferences:
+  - apiVersion: v1
+    controller: true
+    kind: Service
+    name: rabbitmq-loadbalancer
+    uid: 9834f1fb-9499-49df-b654-3e9b62773165
+  selfLink: /apis/apps/v1/namespaces/rabbitmq-ns/daemonsets/svclb-rabbitmq-loadbalancer
+spec:
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: svclb-rabbitmq-loadbalancer
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: svclb-rabbitmq-loadbalancer
+        svccontroller.k3s.cattle.io/svcname: rabbitmq-loadbalancer
+    spec:
+      containers:
+      - env:
+        - name: SRC_PORT
+          value: "8080"
+        - name: DEST_PROTO
+          value: TCP
+        - name: DEST_PORT
+          value: "8080"
+        - name: DEST_IP
+          value: 10.43.127.148
+        image: rancher/klipper-lb:v0.1.2
+        imagePullPolicy: IfNotPresent
+        name: lb-port-8080
+        ports:
+        - containerPort: 8080
+          hostPort: 8080
+          name: lb-port-8080
+          protocol: TCP
+        resources: {}
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+  updateStrategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+status:
+  currentNumberScheduled: 0
+  desiredNumberScheduled: 0
+  numberMisscheduled: 0
+  numberReady: 0

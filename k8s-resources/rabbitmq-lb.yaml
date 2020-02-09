@@ -2,29 +2,32 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
+    field.cattle.io/publicEndpoints: '[{"addresses":["192.168.8.211"],"port":8080,"protocol":"TCP","serviceName":"rabbitmq-ns:rabbitmq-loadbalancer","allNodes":false}]'
     field.cattle.io/targetWorkloadIds: '["deployment:rabbitmq-ns:rabbitmq"]'
     workload.cattle.io/targetWorkloadIdNoop: "true"
     workload.cattle.io/workloadPortBased: "true"
   creationTimestamp: null
   labels:
     cattle.io/creator: norman
-  name: rabbitmq
+  name: rabbitmq-loadbalancer
   ownerReferences:
   - apiVersion: apps/v1beta2
     controller: true
     kind: deployment
     name: rabbitmq
     uid: 67cffbb1-05c2-4173-9667-2c1d2002d89e
-  selfLink: /api/v1/namespaces/rabbitmq-ns/services/rabbitmq
+  selfLink: /api/v1/namespaces/rabbitmq-ns/services/rabbitmq-loadbalancer
 spec:
+  externalTrafficPolicy: Cluster
   ports:
-  - name: clusterip
-    port: 5672
+  - name: lb
+    nodePort: 32461
+    port: 8080
     protocol: TCP
-    targetPort: 5672
+    targetPort: 15672
   selector:
     workload.user.cattle.io/workloadselector: deployment-rabbitmq-ns-rabbitmq
   sessionAffinity: None
-  type: ClusterIP
+  type: LoadBalancer
 status:
   loadBalancer: {}
