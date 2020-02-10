@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    workload.user.cattle.io/workloadselector: deployment-rabbitmq-ns-producer
+    mak3r.demo/workloadselector: deployment-rabbitmq-ns-producer
   name: producer
   namespace: rabbitmq-ns
 spec:
@@ -11,7 +11,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-rabbitmq-ns-producer
+      mak3r.demo/workloadselector: deployment-rabbitmq-ns-producer
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       labels:
-        workload.user.cattle.io/workloadselector: deployment-rabbitmq-ns-producer
+        mak3r.demo/workloadselector: deployment-rabbitmq-ns-producer
     spec:
       containers:
       - image: mak3r/amqp-tools:rpi

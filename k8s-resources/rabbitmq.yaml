@@ -1,24 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: "9"
-    field.cattle.io/creatorId: u-yt7ywked3z
-    field.cattle.io/publicEndpoints: '[{"addresses":["192.168.8.211"],"port":8080,"protocol":"TCP","serviceName":"rabbitmq-ns:rabbitmq-loadbalancer","allNodes":false},{"nodeName":"c-sczc7:machine-f9jdx","addresses":["192.168.8.211"],"port":5672,"protocol":"TCP","podName":"rabbitmq-ns:rabbitmq-666df8fd4-62ltw","allNodes":false}]'
-  creationTimestamp: null
-  generation: 1
   labels:
-    cattle.io/creator: norman
-    workload.user.cattle.io/workloadselector: deployment-rabbitmq-ns-rabbitmq
+    mak3r.demo/workloadselector: deployment-rabbitmq-ns-rabbitmq
   name: rabbitmq
-  selfLink: /apis/apps/v1/namespaces/rabbitmq-ns/deployments/rabbitmq
+  namespace: rabbitmq-ns
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-rabbitmq-ns-rabbitmq
+      mak3r.demo/workloadselector: deployment-rabbitmq-ns-rabbitmq
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -26,13 +19,9 @@ spec:
     type: RollingUpdate
   template:
     metadata:
-      annotations:
-        cattle.io/timestamp: "2020-02-09T17:41:19Z"
-        field.cattle.io/ports: '[[{"containerPort":5672,"dnsName":"rabbitmq","hostPort":0,"kind":"ClusterIP","name":"internal","protocol":"TCP"},{"containerPort":15672,"dnsName":"rabbitmq-loadbalancer","hostPort":0,"kind":"LoadBalancer","name":"mgmt","protocol":"TCP","sourcePort":8080},{"containerPort":5672,"dnsName":"rabbitmq-hostport","hostPort":5672,"kind":"HostPort","name":"external","protocol":"TCP","sourcePort":5672}]]'
-      creationTimestamp: null
       labels:
         app: rabbitmq-ns-rabbitmq
-        workload.user.cattle.io/workloadselector: deployment-rabbitmq-ns-rabbitmq
+        mak3r.demo/workloadselector: deployment-rabbitmq-ns-rabbitmq
     spec:
       containers:
       - image: rabbitmq:3-management
@@ -67,4 +56,3 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       terminationGracePeriodSeconds: 30
-status: {}
