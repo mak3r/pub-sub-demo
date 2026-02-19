@@ -1,0 +1,36 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    field.cattle.io/creatorId: u-yt7ywked3z
+    field.cattle.io/ingressState: '{"cmFiYml0bXEtbWdtdC1yb290L3JhYmJpdG1xLW5zLzRicGx1czAwMS5sYW4vLy8xNTY3Mg==":"","cmFiYml0bXEtbWdtdC1yb290L3JhYmJpdG1xLW5zLzRicGx1czAwMS8vLzE1Njcy":""}'
+    field.cattle.io/publicEndpoints: '[{"addresses":["192.168.8.211"],"port":80,"protocol":"HTTP","serviceName":"rabbitmq-ns:rabbitmq-mgmt-svc","ingressName":"rabbitmq-ns:rabbitmq-mgmt-root","hostname":"4bplus001","path":"/","allNodes":false},{"addresses":["192.168.8.211"],"port":80,"protocol":"HTTP","serviceName":"rabbitmq-ns:rabbitmq-mgmt-svc","ingressName":"rabbitmq-ns:rabbitmq-mgmt-root","hostname":"4bplus001.lan","path":"/","allNodes":false}]'
+  creationTimestamp: "2020-02-12T13:33:27Z"
+  generation: 2
+  labels:
+    cattle.io/creator: norman
+  name: rabbitmq-mgmt-root
+  namespace: rabbitmq-ns
+  resourceVersion: "635434"
+  selfLink: /apis/extensions/v1beta1/namespaces/rabbitmq-ns/ingresses/rabbitmq-mgmt-root
+  uid: 2e994368-ea45-4081-bda5-24dce42c3186
+spec:
+  rules:
+  - host: 4bplus001
+    http:
+      paths:
+      - backend:
+          serviceName: rabbitmq-mgmt-svc
+          servicePort: 15672
+        path: /
+  - host: 4bplus001.lan
+    http:
+      paths:
+      - backend:
+          serviceName: rabbitmq-mgmt-svc
+          servicePort: 15672
+        path: /
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.8.211

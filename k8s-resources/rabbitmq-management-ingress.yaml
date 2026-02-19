@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    field.cattle.io/ingressState: '{"cmFiYml0bXEtbWFuYWdlbWVudC9yYWJiaXRtcS1ucy80YnBsdXMwMDEubGFuLy9yYWJiaXRtcS8xNTY3Mg==":"","cmFiYml0bXEtbWFuYWdlbWVudC9yYWJiaXRtcS1ucy80YnBsdXMwMDEvL3JhYmJpdG1xLzE1Njcy":""}'
+    field.cattle.io/publicEndpoints: '[{"addresses":["192.168.8.211"],"port":80,"protocol":"HTTP","serviceName":"rabbitmq-ns:rabbitmq-mgmt-svc","ingressName":"rabbitmq-ns:rabbitmq-management","hostname":"4bplus001.lan","path":"/rabbitmq","allNodes":false},{"addresses":["192.168.8.211"],"port":80,"protocol":"HTTP","serviceName":"rabbitmq-ns:rabbitmq-mgmt-svc","ingressName":"rabbitmq-ns:rabbitmq-management","hostname":"4bplus001","path":"/rabbitmq","allNodes":false}]'
+    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"extensions/v1beta1","kind":"Ingress","metadata":{"annotations":{"traefik.ingress.kubernetes.io/app-root":"/"},"name":"rabbitmq-management","namespace":"rabbitmq-ns"},"spec":{"rules":[{"host":"4bplus001.lan","http":{"paths":[{"backend":{"serviceName":"ingress-75f007bf592e2594982949ca74b75e7c","servicePort":15672},"path":"/"},{"backend":{"serviceName":"ingress-ffe9286f7f9febf523d4256dc7fe29d4","servicePort":15672},"path":"/rabbitmq"}]}},{"host":"4bplus001","http":{"paths":[{"backend":{"serviceName":"ingress-c00548c68466a274af357bb0662168be","servicePort":15672},"path":"/"},{"backend":{"serviceName":"ingress-35ba4a2f910ce8547409d3b981be2bff","servicePort":15672},"path":"/rabbitmq"}]}}]}}'
+    traefik.ingress.kubernetes.io/rewrite-target: /
+  creationTimestamp: "2020-02-12T01:52:32Z"
+  generation: 3
+  name: rabbitmq-management
+  namespace: rabbitmq-ns
+  resourceVersion: "635334"
+  selfLink: /apis/extensions/v1beta1/namespaces/rabbitmq-ns/ingresses/rabbitmq-management
+  uid: 30b8b41a-89a6-4eeb-af8c-2294af98fc44
+spec:
+  rules:
+  - host: 4bplus001.lan
+    http:
+      paths:
+      - backend:
+          serviceName: rabbitmq-mgmt-svc
+          servicePort: 15672
+        path: /rabbitmq
+  - host: 4bplus001
+    http:
+      paths:
+      - backend:
+          serviceName: rabbitmq-mgmt-svc
+          servicePort: 15672
+        path: /rabbitmq
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.8.211

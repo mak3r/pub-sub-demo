@@ -1,0 +1,59 @@
+---
+apiVersion: v1
+kind: Namespace
+spec:
+    finalizers:
+    - kubernetes
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    labels:
+    mak3r.demo/workloadselector: deployment-rabbitmq-ns-rabbitmq
+    name: rabbitmq
+    namespace: rabbitmq-ns
+spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+    matchLabels:
+        mak3r.demo/workloadselector: deployment-rabbitmq-ns-rabbitmq
+    strategy:
+    rollingUpdate:
+        maxSurge: 1
+        maxUnavailable: 0
+    type: RollingUpdate
+    template:
+    metadata:
+        annotations:
+        cattle.io/timestamp: "2020-02-12T01:40:49Z"
+        field.cattle.io/ports: '[null]'
+        creationTimestamp: null
+        labels:
+        app: rabbitmq-ns-rabbitmq
+        mak3r.demo/workloadselector: deployment-rabbitmq-ns-rabbitmq
+    spec:
+        containers:
+        - image: rabbitmq:3-management
+        imagePullPolicy: Always
+        name: rabbitmq
+        resources: {}
+        securityContext:
+            allowPrivilegeEscalation: false
+            capabilities: {}
+            privileged: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+        stdin: true
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        tty: true
+        dnsConfig: {}
+        dnsPolicy: ClusterFirst
+        hostname: mq-demo
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+---

@@ -19,6 +19,10 @@ spec:
     type: RollingUpdate
   template:
     metadata:
+      annotations:
+        cattle.io/timestamp: "2020-02-12T01:40:49Z"
+        field.cattle.io/ports: '[null]'
+      creationTimestamp: null
       labels:
         app: rabbitmq-ns-rabbitmq
         mak3r.demo/workloadselector: deployment-rabbitmq-ns-rabbitmq
@@ -27,17 +31,6 @@ spec:
       - image: rabbitmq:3-management
         imagePullPolicy: Always
         name: rabbitmq
-        ports:
-        - containerPort: 5672
-          name: internal
-          protocol: TCP
-        - containerPort: 15672
-          name: mgmt
-          protocol: TCP
-        - containerPort: 5672
-          hostPort: 5672
-          name: external
-          protocol: TCP
         resources: {}
         securityContext:
           allowPrivilegeEscalation: false

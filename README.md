@@ -7,6 +7,8 @@
 * currently the rpi image is at mak3r/amqp-tools:rpi
 
 ## Install rabbitmq and services in a pod inside k8s
+1. Create the rabbitmq namespace
+    * `kubectl create ns rabbitmq-ns`
 1. Create rabbit mq container
     * `kubectl apply -f k8s-resources/rabbitmq.yaml`
 1. Setup a fanout exchange 
@@ -76,3 +78,7 @@ https://www.systutorials.com/docs/linux/man/1-amqp-publish/
 https://hub.docker.com/_/rabbitmq
 https://www.rabbitmq.com/management.html
 
+```
+annotations:
+    ingress.kubernetes.io/rewrite-target: '/'
+```
